@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "global": false,
+  "javascript": "requestExamples",
+  "availableToAllPages": true,
+  "jsEditable": true,
+  "translations" : [
+    {
+      "language": "en",
+      "name": "DRV Request Examples"
+    },
+    {
+      "language": "pt_BR",
+      "name": "DRV Exemplos de Requests"
+    }
+  ]
+}
