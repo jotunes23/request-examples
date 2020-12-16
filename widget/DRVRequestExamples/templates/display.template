@@ -1,1 +1,62 @@
-<div id="CC-RequestExamples"></div>
+<div id="CC-RequestExamples">
+  <button data-bind="click: $data.handleShowLists.bind($data, event, $element)">Exibir listas</button>
+
+  <div class="CC-RequestExamples" data-bind="visible: showLists">
+
+    <div class="re__org">
+      <!-- ko if: $data.organizationList().length -->
+      <h2>
+        <span>Lista de Organizações do </span>
+        <span data-bind="text: $data.user().firstName()"></span>
+      </h2>
+
+      <ul data-bind="foreach: { data: organizationList, as: 'organization' }">
+        <li data-bind="css: active ? 'ativado' : 'desativado'">
+          <span data-bind="text: organization.id"></span>
+          <span> - </span>
+          <span data-bind="text: $data.name"></span>
+        </li>
+      </ul>
+      <!-- /ko -->
+
+      <!-- ko ifnot: $data.organizationList().length -->
+      <p>Não encontramos nenhuma organização</p>
+      <!-- /ko -->
+    </div>
+
+    <div class="re__product">
+      <!-- ko if: $data.productList().length -->
+      <h2>Lista de Produtos</h2>
+
+      <div class="productList" data-bind="foreach: productList">
+        <div class="product" data-bind="attr: { id: 'product-' + id }">
+          <h3 class="product__title">
+            <a data-bind="ccLink : $data, text: $data.displayName"></a>
+          </h3>
+
+          <div class="product__image">
+            <img data-bind="ccResizeImage: {
+              source: $data.primarySourceImageURL,
+              size:'150,150',
+              alt: $data.primaryImageAltText,
+              errorSrc:'/img/no-image.jpg',
+              errorAlt:'No Image Found' }">
+          </div>
+
+          <p class="product__price" data-bind="currency: {
+            price: $data.listPrice,
+            currencyObj: $parent.site().selectedPriceListGroup().currency,
+            nullReplace: 'Preço Indisponivel',
+            prependNull: false }">
+          </p>
+        </div>
+      </div>
+      <!-- /ko -->
+
+      <!-- ko ifnot: $data.productList().length -->
+      <p>Não encontramos nenhuma produto</p>
+      <!-- /ko -->
+    </div>
+
+  </div>
+</div>

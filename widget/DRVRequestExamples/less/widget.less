@@ -1,1 +1,40 @@
-#CC-RequestExamples {}
+#CC-RequestExamples {
+  .CC-RequestExamples {
+    .re {
+      &__org {
+        .ativado {
+          color: green;
+        }
+
+        .desativado {
+          color: red;
+        }
+      }
+
+      &__product {
+        .productList {
+          display: flex;
+          justify-content: space-between;
+          text-align: center;
+
+          .product {
+            padding: 15px;
+            border: 1px solid;
+            border-radius: 4px;
+            max-width: 250px;
+
+            &__title {
+              font-size: 16px;
+            }
+
+            &__price {
+              margin-top: 15px;
+              font-size: 20px;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}

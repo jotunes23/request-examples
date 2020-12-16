@@ -11,7 +11,9 @@ define(
     'use strict';
 
     return {
-      listOrganizations: ko.observable(),
+      showLists: ko.observable(false),
+      organizationList: ko.observableArray([]),
+      productList: ko.observableArray([]),
 
       onLoad: function (widget) {
         var self = this;
@@ -39,11 +41,11 @@ define(
           function (data) {
             if (data && data.items) {
               console.log('listOrganizations data\n', data);
-              widget.listOrganizations(data.items);
+              widget.organizationList(data.items);
             }
           },
           function (error) {
-            widget.listOrganizations('');
+            widget.organizationList('');
             notifier.sendError('header', error.message, true);
           }
         );
@@ -51,14 +53,12 @@ define(
 
       getProducts: function (catalogId) {
         // CCConstants.ENDPOINT_PRODUCTS_LIST_PRODUCTS = 'listProducts';
-
-        var widget = this;
         var params = {};
 
         params[ccConstants.OFFSET] = 0;
         params[ccConstants.LIMIT] = 5;
         params[ccConstants.CATEGORY] = catalogId;
-        params[ccConstants.FIELDS_QUERY_PARAM] = 'items.id,items.displayName,items.listPrice';
+        params[ccConstants.FIELDS_QUERY_PARAM] = 'items.id,items.displayName,items.listPrice,item.creationDate,item.route';
         params[ccConstants.SORTS] = 'listPrice,displayName';
 
         ccRestClient.request(
@@ -76,10 +76,14 @@ define(
       },
 
       getFilteredProducts: function () {
+        // CCConstants.ENDPOINT_PRODUCTS_LIST_PRODUCTS = 'listProducts';
+
+        var widget = this;
         var params = {};
 
         params[ccConstants.OFFSET] = 0;
-        params[ccConstants.FIELDS_QUERY_PARAM] = 'items.id,items.displayName,items.listPrice,items.route';
+        params[ccConstants.LIMIT] = 4;
+        params[ccConstants.FIELDS_QUERY_PARAM] = 'items.id,items.displayName,items.listPrice,items.primarySourceImageURL,items.primaryImageAltText';
         params[ccConstants.Q] = 'displayName sw "ARQ"';
 
         ccRestClient.request(
@@ -88,12 +92,25 @@ define(
           function (data) {
             if (data && data.items) {
               console.log('getFilteredProducts data\n', data);
+              widget.productList(data.items);
             }
           },
           function (error) {
             notifier.sendError('header', error.message, true);
           }
         );
+      },
+
+      handleShowLists: function (event, element) {
+        var widget = this;
+
+        console.log('this\n', this);
+        console.log('event\n', event);
+        console.log('element\n', element);
+
+        widget.showLists(true);
+
+        $(element).hide();
       }
     }
   }
